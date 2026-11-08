@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "engineering-flow",
+  "description": "单一入口组织本地任务、真实检查、Review、文档与续接。",
+  "version": "0.1.0-dev.8"
+}

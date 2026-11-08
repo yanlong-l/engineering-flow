@@ -1,0 +1,13 @@
+{
+  "summary": "构造解释草稿：SQLite 事务内查询请求标识，复用原批次或拒绝冲突。需要评审者核对代码与检查。",
+  "behaviors": [
+    {
+      "title": "相同请求复用原批次与任务",
+      "description": "submit 获取写事务后查找 request_id；内容相同则使用已有 batch_id，内容不同则拒绝。",
+      "acceptanceCriteria": [1],
+      "references": [
+        {"file": "batch_queue.py", "layer": "worktree", "startLine": 27, "endLine": 36}
+      ]
+    }
+  ]
+}

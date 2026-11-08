@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "checks": [
+    {"id": "unit-tests", "required": true, "argv": ["{python}", "-m", "unittest", "discover", "-s", "tests", "-v"], "timeoutSeconds": 600},
+    {"id": "copilot-runtime", "required": true, "argv": ["{python}", "-m", "engineering_flow", "doctor", "--require-mcp"], "timeoutSeconds": 30},
+    {"id": "example", "required": true, "cwd": "examples/batch-queue", "argv": ["{python}", "-B", "check_idempotency.py"], "timeoutSeconds": 30},
+    {"id": "pilot", "required": true, "argv": ["{python}", "-B", "tools/run_pilot.py"], "timeoutSeconds": 90}
+  ]
+}

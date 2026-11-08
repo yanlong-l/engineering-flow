@@ -90,3 +90,24 @@ Copilot 返回内容与服务端写入记录一致。该结果的依据包含真
 - 编写不依赖真实设备或公司数据的 Python 示例项目，围绕批量任务的重复请求行为验证完整流程。
 - 本机 Hooks 的事件、载荷和失败处理尚未实际验证；显式保存、检查、生成 Review 和恢复路径仍作为基础要求。
 - 正式插件安装包、升级、干净环境安装和其他电脑尚未验证。
+
+
+## M4-1 正式插件复核（2026-11-07）
+
+上述 M0 记录保留为历史探针。M4-1 核对目标仍为 VS Code 1.137.0、内置 copilot-chat 0.65.0、macOS / Apple Silicon 和 Python 3.14.3；未安装 VS Code 更新或切换全局审批模式。
+
+正式生成包在 Plugins 中显示 1 个 Agent、2 个内部 Skills，Copilot 会话通过其 MCP 实际续接、checkpoint、执行四例检查、生成 Review、提出文档建议、加载并读取固定 engineer-voice 规则、提交改写和生成交接。独立 CLI 读取的实际数据库记录与界面 ID 一致。Auto 路由曾使用 GPT-6 Luna 与 GPT-6.1 Terra，此为本次运行记录，不绑定产品模型。加载、失败尝试、修正与最终结果详见 STATUS 及其证据目录。
+
+临时元数据探针观察到 sessionStart/postToolUse，载荷键名与目标 Copilot 合同相符；未保存 initialPrompt、toolArgs、toolResult 内容，未写入产品任务/检查或审批。事件触发不证明自动 checkpoint、循环抑制、超时/失败或强杀恢复已验收；正式包仍无 Hooks。
+
+测试结束经 VS Code 界面卸载正式构造安装及 Hooks 探针，Plugins 显示 0；源码、生成包和本地证据保留。全局保持 Manual permissions，无真实人工确认。其他客户端、其他电脑、干净环境完整插件安装与升级仍未验收；基础 wheel 的隔离 CLI 安装只覆盖其明确检查范围。
+
+## M4-2 干净安装与真实 Copilot（2026-11-08）
+
+本轮在无系统 site-packages 的新 venv，从本地 wheel 与预下载的固定 SDK 依赖离线安装。先安装 dev7，再升级 dev8、回退 dev7、恢复 dev8，实际读取同一 v6 任务修订未改变。-I 导入路径位于运行环境 site-packages，未引用开发 src。基础无 SDK 环境可用 CLI，doctor --require-mcp 明确失败；移动 venv、移动仓库、错误分支与旧插件参数均被拒绝。生成、inspect、重启后缓存过期和失败/skip/失效路径通过真实 stdio 验证，详见 round-8 证据。
+
+目标仍为 VS Code 1.137.0 / 内置 Copilot Chat 0.65.0 的 Copilot 会话。生成包显示 1 Agent/2 Skills；Auto 本次路由 GPT-6 Luna，保持 Manual permissions 与远程连接关闭。真实宿主使用安装包依次 resume、checkpoint、运行四例必需检查、Review、提出 HOST_NOTES.md 候选、voice、flow_read 分页、rewrite 和 handoff。界面实际出现分页调用，本次未见宿主临时输出文件读取；全部规则字节分页可恢复性另由 SDK 独立核对，不以模型“已读”自述作为字节一致依据。
+
+第一次实际改写因 protected_content_changed 被拒绝并保留原稿，后续候选通过保护检查；数据库独立读取证实最终 proposed/current、未创建目标文件、无确认事件。旧候选 needs_revalidation，已知可选故意失败保持 failed；必需检查 passed/current。程序加载和保护比较仍不能证明通用语义等价或真人已批准。
+
+最终经界面卸载构造插件，Plugins=0；Reload Window 后仍观察到原构造 MCP 进程，核对其工作区/版本/环境与没有运行检查后终止该服务，没有结束其他安装。生成目录与证据保留，未修改信任列表、安装客户端更新或启用产品 Hooks。本轮只证明这一台电脑的隔离运行环境和已列宿主组合，其他电脑仍待验收。操作步骤见[安装、升级与回退](13-installation-and-upgrade.md)。

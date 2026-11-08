@@ -1,0 +1,9 @@
+{
+  "content": "构造候选：submit 在 SQLite 写事务内按 request_id 查询；相同 Case 列表复用批次，内容不同则拒绝。仅覆盖同机 SQLite，不推导分布式服务保证。",
+  "kind": "design_decision",
+  "scope": {"kind": "paths", "paths": ["batch_queue.py"], "modules": ["queue"]},
+  "keywords": ["request_id", "retry"],
+  "sources": [
+    {"kind": "code", "file": "batch_queue.py", "layer": "worktree", "startLine": 27, "endLine": 36}
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "checks": [
+    {"id": "idempotency", "required": true, "argv": ["{python}", "-B", "check_idempotency.py"], "timeoutSeconds": 30},
+    {"id": "known-bug", "required": false, "argv": ["{python}", "-B", "check_idempotency.py", "--implementation", "buggy_queue.py"], "timeoutSeconds": 30}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "engineer-voice",
+  "version": "0.2.0",
+  "commit": "8dcf520fb3974e9711cf193ca78a9839a7fce5f0",
+  "repository": "https://github.com/yanlong-l/engineer-voice",
+  "license": "MIT",
+  "files": {
+    "LICENSE": "48cf167b76b3ba5e1036614b993b0b95ad741896c17f818adc7aa0d794605f16",
+    "SKILL.md": "603bb704fac13ead8081d9737588fcce26806cc80f490bff07fe1c91569bf51b",
+    "docs/regressions.md": "80be29477ebb46e5a58d6b567fcdf3d8767061e7bbb14d1c8d5cc447eab32f9e",
+    "examples.md": "b090058dd34d2427406c6392ca7b76a3c4b225f29c8c114b120334dbabbb398c",
+    "phrases.md": "eb1a7a0cc2abd26ede53a2c1033df94a11c9e6b1cfad91c8dd6d0802b0216eeb"
+  }
+}

@@ -26,40 +26,37 @@
 
 本地可变配置本身不能保证公司制度被强制执行。真正需要落实的合并要求，应由适用的 CI 或仓库规则检查实际结果。
 
-## 候选配置示例
+## M2-1 已实现的配置
 
-下面用于讨论配置体验，尚不是已实现或可直接使用的配置格式。命令仅为示例，应按试点项目替换。
+目标仓库根 `.engineering-flow.json` 支持以下格式；未知字段拒绝，完整合同见 README：
 
 ```json
 {
   "schemaVersion": 1,
-  "workflow": "standard",
+  "additionalInputs": ["ignored-fixtures"],
   "checks": [
     {
       "id": "unit-tests",
-      "command": "npm",
-      "args": ["test"],
+      "argv": ["{python}", "-B", "check_tests.py"],
+      "cwd": ".",
       "required": true,
-      "timeoutSeconds": 300
+      "timeoutSeconds": 60
     }
-  ],
-  "review": {
-    "focus": ["authorization", "retries", "state-transitions"]
-  },
-  "documentation": {
-    "styleModule": "engineer-voice",
-    "updateMode": "propose"
-  },
-  "memory": {
-    "loadRelevantOnly": true
-  },
-  "ui": {
-    "language": "zh-CN"
-  }
+  ]
 }
 ```
 
-配置应通过 schema 验证。未知关键字段、冲突的必需项、缺失依赖均有诊断，不静默丢弃。配置版本和检查定义变化后，相关旧结果需要重新判断是否适用。
+`additionalInputs` 可省略；声明路径必须实际存在。argv 不经过 shell，完整参数 `{python}` 替换为执行 CLI 的 Python。cwd 默认根目录，timeoutSeconds 默认 60（0.1–3600 秒）。required 必须显式填写；没有个人覆盖接口；显式 check skip 保留原因，不移除 required 或满足必需项。修改配置会改变内容快照，旧检查不会沿用为当前通过。命令成功约定为退出 0，命令本身负责测试数量和断言。
+
+workflow、review、documentation、memory 和 ui 等配置尚未实现，不能把设计选项直接加入当前配置。团队制度需要由适用的 CI 或仓库规则落实，本地配置可编辑不等于强制执行机制。
+
+M3-1 已提供 `memory propose/show/context/relate` 显式操作，默认任务结果包含 memoryContext；单次 context 可指定查询、路径、模块和字节预算，没有新增 memory 配置字段。候选需要明确来源，不自动提取全部对话。记忆评审可使用现有 `review record --memory` / `review confirm`，保留本机终端信任边界；无 Hooks 时这些操作同样可用。完整参数与限制见 README。
+
+M3-2 增加 `document propose/show/export/voice/rewrite` 和 `task handoff`。文档目标与修改原因显式提交，三类文档只产生可审阅建议；工作区文件由用户/宿主按现有 Review 流程修改，程序没有自动应用入口。`review record --document` 沿用同一个确认流程，文档修改导致快照改变后重新核对检查、页面及确认。
+
+engineer-voice 的固定 Markdown 文件与 MIT 许可随包提供，`document voice` 校验后显式返回规则供当前宿主 Agent 使用；没有新增模型服务或执行草稿内命令。缺失/损坏模块保留原稿，不能声称已做改写。`document rewrite` 比较保护内容并保留候选与拒绝原因，不接受模型自报检查通过/人工确认。M4-1 插件的内部文档 Skill 按 voice → 宿主实际改写 → rewrite → Review 组织流程；本地规则加载仍不能替代真实 Copilot 验收。
+
+M4-1 增加 `doctor` 与 `plugin build --output 新目录`。Core/CLI 的开始、继续、检查、Review、文档和交接通过七组 stdio MCP 工具复用，Agent 对用户保持四类动作。固定 SDK 通过 `.[copilot]` 安装；缺少依赖可继续显式 CLI。插件绑定一个本机工作区，当前 IDE 窗口与绑定不同时不得使用；工作区、环境路径改变后重新生成，尚无自动多仓库路由或升级器。安装与参数合同见 README，真实客户端结果见 STATUS。
 
 ## 扩展接口
 
@@ -106,3 +103,12 @@ Hooks 执行成功说明对应程序运行了，不等于语义判断一定正�
 | 相关记忆互相矛盾 | 展示差异并核对来源，不隐式选成项目规则 |
 
 降级方式服务于开发和实际使用，但正式发布应明确最低支持环境与验收过的能力组合。
+
+
+## M4-2 安装、展示与升级
+
+安装以独立 venv 的本地 wheel＋固定可选 SDK 为基线，插件目录按版本保留，不覆盖旧目录或直接修改 IDE 安装缓存。doctor --require-mcp 和 plugin inspect 可作为显式诊断；后一入口不执行包内命令。版本、Python 环境和工作区变化后重新生成并注册，旧任务/记录由同一 Core 保留。完整步骤与已验证回退边界见 [安装说明](13-installation-and-upgrade.md)。
+
+默认 MCP 大结果为明确摘要，按领域 ID 与 presentation 引用取得全文；flow_read 提供原文分页，不把字节数或 token 数作为 offset。过期缓存返回错误，恢复使用 show/resume，不重试写操作。view=summary/full 是当前每次调用的展示选择，不写入任务状态或配置，不关闭项目必需检查。固定表达模块、原稿、来源和失效信息均可完整读取；分页/加载不构成语义确认。
+
+本仓库根据实际 374.671 秒回归将 unit-tests 超时调整为 600 秒，并新增 required 的 copilot-runtime 诊断。没有关闭原 required 项，也没有将缺少 SDK 时的集成测试 skip 算作整个项目已通过。其他项目仍需按自己的实际命令与要求配置。

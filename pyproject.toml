@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "engineering-flow"
+version = "0.1.0.dev8"
+description = "Local task records for engineering collaboration"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[project.optional-dependencies]
+copilot = ["mcp==2.3.0"]
+
+[project.scripts]
+engineering-flow = "engineering_flow.adapters.cli:main"
+engineering-flow-mcp = "engineering_flow.adapters.mcp:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+engineering_flow = ["resources/engineer_voice/*.md", "resources/engineer_voice/LICENSE", "resources/engineer_voice/*.json", "resources/engineer_voice/docs/*.md", "resources/copilot/*.json", "resources/copilot/com.github.copilot/agents/*.md", "resources/copilot/skills/*/*.md"]
